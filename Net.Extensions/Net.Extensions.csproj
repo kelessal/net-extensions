@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Company>Salih Keleş</Company>
+    <Product>Salih Keleş</Product>
+    <Description>Simple but handful extensions</Description>
+    <PackageLicenseUrl>https://github.com/kelessal/net-extensions/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/kelessal/net-extensions</PackageProjectUrl>
+    <Copyright>©2019 Salih Keleş</Copyright>
+    <PackageIconUrl>https://github.com/kelessal/net-extensions/blob/master/images/blue-tick.ico</PackageIconUrl>
+    <RepositoryUrl>https://github.com/kelessal/net-extensions</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>net, extension, utility</PackageTags>
+  </PropertyGroup>
+
+</Project>
