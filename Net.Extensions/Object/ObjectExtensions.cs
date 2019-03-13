@@ -15,7 +15,7 @@ namespace Net.Extensions
             return true;
         }
         public static bool Intersects<T>(this T item, Range<T> range)
-            where T : IComparable<T>
+            where T :struct, IComparable<T>
         {
             return range.Intersects(item);
         }
