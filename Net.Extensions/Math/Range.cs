@@ -2,10 +2,10 @@
 
 namespace Net.Extensions
 {
-    public struct Range<T>:IEquatable<Range<T>> where T:struct,IComparable<T>
+    public class Range<T>:IEquatable<Range<T>> where T:struct,IComparable<T>
     {
-        public T Start { get; set; } 
-        public T End { get; set; } 
+        public virtual T Start { get; set; } 
+        public virtual T End { get; set; } 
         public Range(T start,T end)
         {
             this.Start = start;
