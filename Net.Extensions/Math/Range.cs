@@ -11,7 +11,10 @@ namespace Net.Extensions
             this.Start = start;
             this.End = end;
         }
+        public Range()
+        {
 
+        }
         public static bool operator ==(Range<T> left,Range<T> right)
         {
             return left.Equals(right);
