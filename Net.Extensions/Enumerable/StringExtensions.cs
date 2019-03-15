@@ -101,7 +101,7 @@ namespace Net.Extensions
         }
         public static string ToDashCase(this string str)
         {
-            return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString())).ToLower();
+            return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString())).ToLowerInvariant();
         }
         public static string  DashToCamelCase(this string input)
         {
