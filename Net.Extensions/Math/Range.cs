@@ -17,10 +17,14 @@ namespace Net.Extensions
         }
         public static bool operator ==(Range<T> left,Range<T> right)
         {
+            if (left == null && right == null) return true;
+            if (left == null || right == null) return false;
             return left.Equals(right);
         }
         public static bool operator !=(Range<T> left, Range<T> right)
         {
+            if (left == null && right == null) return false;
+            if (left == null || right == null) return true;
             return !left.Equals(right);
         }
         public override bool Equals(object obj)
