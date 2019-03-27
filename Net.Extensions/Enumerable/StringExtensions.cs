@@ -73,7 +73,18 @@ namespace Net.Extensions
             // return the array made of the new char array
             return new string(letters);
         }
-        
+        public static string ToLowerFirstLetter(this string source, bool isInvariant = false)
+        {
+            if (string.IsNullOrEmpty(source))
+                return string.Empty;
+            // convert to char array of the string
+            char[] letters = source.ToCharArray();
+            // lower case the first char
+            letters[0] = isInvariant ? char.ToLowerInvariant(letters[0]) : char.ToLower(letters[0]);
+            // return the array made of the new char array
+            return new string(letters);
+        }
+
         public static string[] NormalizeToLowerStringArray(this IEnumerable<string> items)
         {
             if (items == null) return new string[] { };
