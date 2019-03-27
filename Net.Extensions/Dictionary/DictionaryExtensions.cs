@@ -10,6 +10,31 @@ namespace Net.Extensions
             if (key == null || dic==null) return default(TValue);
             return dic.ContainsKey(key) ? dic[key] : default(TValue);
         }
+
+        public static Dictionary<string,object> MergeDictionary(this Dictionary<string,object> target,Dictionary<string,object> source,bool overrideExistings=true)
+        {
+            target = target ?? new Dictionary<string, object>();
+            foreach(var kv in source)
+            {
+                if (!target.ContainsKey(kv.Key))
+                {
+                    target.Add(kv.Key, kv.Value);
+                    continue;
+                }
+                var targetValue = target[kv.Key];
+                if(!(targetValue is Dictionary<string, object> dicTarget)){
+                    if (overrideExistings)
+                        target[kv.Key] = kv.Value;
+                    continue;
+                }
+                if (kv.Value is Dictionary<string, object> dicSource)
+                    dicTarget.MergeDictionary(dicSource, overrideExistings);
+                else if (overrideExistings)
+                    target[kv.Key] = kv.Value;
+            }
+            return target;
+        }
+
         public static Dictionary<string, object> Extend(this Dictionary<string, object> dic, string path, object value, bool overrideExists = true)
         {
             dic = dic ?? new Dictionary<string, object>();
@@ -22,9 +47,18 @@ namespace Net.Extensions
                     current[p] = new Dictionary<string, object>();
                 current = current[p] as Dictionary<string, object>;
             }
-            if (!overrideExists && current.ContainsKey(paths.Last())) return dic;
-            current[paths.Last()] = value;
-            return dic;
+            var lastPath = paths.Last();
+            if (!current.ContainsKey(lastPath))
+            {
+                current[lastPath] = value;
+                return dic;
+            }
+            var curValue = current[lastPath];
+            if (curValue is Dictionary<string, object> dicCur && value is Dictionary<string, object> dicVal)
+                dicCur.MergeDictionary(dicVal, overrideExists);
+            else if (overrideExists)
+                current[lastPath] = value;
+            return dic;       
         }
        
     }
