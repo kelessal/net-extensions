@@ -60,6 +60,48 @@ namespace Net.Extensions
                 current[lastPath] = value;
             return dic;       
         }
-       
+        public static object GetPathValue(this Dictionary<string, object> dic, string path)
+        {
+            if (dic == null)
+            {
+                return null;
+            }
+            string[] array = path.SplitBy(".");
+            Dictionary<string, object> dictionary = dic;
+            for (int i = 0; i < array.Length - 1; i++)
+            {
+                string key = array[i];
+                if (!dictionary.ContainsKey(key) || !(dictionary[key] is Dictionary<string, object>))
+                {
+                    return null;
+                }
+                dictionary = (dictionary[key] as Dictionary<string, object>);
+            }
+            string key2 = array.Last();
+            if (!dictionary.ContainsKey(key2))
+            {
+                return null;
+            }
+            return dictionary[key2];
+        }
+
+        public static T GetPathValue<T>(this Dictionary<string, object> dic, string path)
+        {
+            object pathValue = dic.GetPathValue(path);
+            if (pathValue == null)
+            {
+                return default(T);
+            }
+            object obj;
+            if ((obj = pathValue) is T)
+            {
+                return (T)obj;
+            }
+            return default(T);
+        }
+
     }
+
+  
+
 }
