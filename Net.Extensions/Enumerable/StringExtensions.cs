@@ -114,6 +114,10 @@ namespace Net.Extensions
         {
             return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString())).ToLowerInvariant();
         }
+        public static string ToWordsCase(this string str)
+        {
+            return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x.ToString() : x.ToString()));
+        }
         public static string  DashToCamelCase(this string input)
         {
             StringBuilder sb = new StringBuilder();
