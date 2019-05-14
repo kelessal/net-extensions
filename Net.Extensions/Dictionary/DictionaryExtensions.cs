@@ -11,7 +11,7 @@ namespace Net.Extensions
             return dic.ContainsKey(key) ? dic[key] : default(TValue);
         }
 
-        public static Dictionary<string,object> MergeDictionary(this Dictionary<string,object> target,Dictionary<string,object> source,bool overrideExistings=true)
+        public static IDictionary<string,object> MergeDictionary(this IDictionary<string,object> target,IDictionary<string,object> source,bool overrideExistings=true)
         {
             target = target ?? new Dictionary<string, object>();
             foreach(var kv in source)
@@ -22,12 +22,12 @@ namespace Net.Extensions
                     continue;
                 }
                 var targetValue = target[kv.Key];
-                if(!(targetValue is Dictionary<string, object> dicTarget)){
+                if(!(targetValue is IDictionary<string, object> dicTarget)){
                     if (overrideExistings)
                         target[kv.Key] = kv.Value;
                     continue;
                 }
-                if (kv.Value is Dictionary<string, object> dicSource)
+                if (kv.Value is IDictionary<string, object> dicSource)
                     dicTarget.MergeDictionary(dicSource, overrideExistings);
                 else if (overrideExistings)
                     target[kv.Key] = kv.Value;
@@ -35,7 +35,7 @@ namespace Net.Extensions
             return target;
         }
 
-        public static Dictionary<string, object> Extend(this Dictionary<string, object> dic, string path, object value, bool overrideExists = true)
+        public static IDictionary<string, object> Extend(this IDictionary<string, object> dic, string path, object value, bool overrideExists = true)
         {
             dic = dic ?? new Dictionary<string, object>();
             var paths = path.SplitBy(".");
@@ -43,9 +43,9 @@ namespace Net.Extensions
             for (var i = 0; i < paths.Length - 1; i++)
             {
                 var p = paths[i];
-                if (!current.ContainsKey(p) || !(current[p] is Dictionary<string, object>))
+                if (!current.ContainsKey(p) || !(current[p] is IDictionary<string, object>))
                     current[p] = new Dictionary<string, object>();
-                current = current[p] as Dictionary<string, object>;
+                current = current[p] as IDictionary<string, object>;
             }
             var lastPath = paths.Last();
             if (!current.ContainsKey(lastPath))
@@ -54,28 +54,28 @@ namespace Net.Extensions
                 return dic;
             }
             var curValue = current[lastPath];
-            if (curValue is Dictionary<string, object> dicCur && value is Dictionary<string, object> dicVal)
+            if (curValue is IDictionary<string, object> dicCur && value is IDictionary<string, object> dicVal)
                 dicCur.MergeDictionary(dicVal, overrideExists);
             else if (overrideExists)
                 current[lastPath] = value;
             return dic;       
         }
-        public static object GetPathValue(this Dictionary<string, object> dic, string path)
+        public static object GetPathValue(this IDictionary<string, object> dic, string path)
         {
             if (dic == null)
             {
                 return null;
             }
             string[] array = path.SplitBy(".");
-            Dictionary<string, object> dictionary = dic;
+            IDictionary<string, object> dictionary = dic;
             for (int i = 0; i < array.Length - 1; i++)
             {
                 string key = array[i];
-                if (!dictionary.ContainsKey(key) || !(dictionary[key] is Dictionary<string, object>))
+                if (!dictionary.ContainsKey(key) || !(dictionary[key] is IDictionary<string, object>))
                 {
                     return null;
                 }
-                dictionary = (dictionary[key] as Dictionary<string, object>);
+                dictionary = (dictionary[key] as IDictionary<string, object>);
             }
             string key2 = array.Last();
             if (!dictionary.ContainsKey(key2))
@@ -85,7 +85,7 @@ namespace Net.Extensions
             return dictionary[key2];
         }
 
-        public static T GetPathValue<T>(this Dictionary<string, object> dic, string path)
+        public static T GetPathValue<T>(this IDictionary<string, object> dic, string path)
         {
             object pathValue = dic.GetPathValue(path);
             if (pathValue == null)
