@@ -14,5 +14,12 @@ namespace Net.Extensions.Test
             var result = x.ToWordsCase();
             Assert.Equal("Hello World", result);
         }
+        [Fact]
+        public void DashCaseTest()
+        {
+            var x = "ServiceSo";
+            var result = x.ToDashCase();
+            
+        }
     }
 }

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Net.Extensions
 {
     public static class StringExtensions
     {
+        static Regex DashCaseRegex = new Regex(@"([A-Z][a-z])|([a-z][A-Z])", RegexOptions.Compiled);
         static CultureInfo EnglishCulture = new CultureInfo("en-US");
         static Dictionary<char, char> turkishCharset = new Dictionary<char, char>()
         {
@@ -112,7 +114,12 @@ namespace Net.Extensions
         }
         public static string ToDashCase(this string str)
         {
-            return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "-" + x.ToString() : x.ToString())).ToLowerInvariant();
+            var result=DashCaseRegex.Replace(str, delegate (Match match)
+            {
+                string v = match.ToString();
+                return char.IsUpper(v[0])? "-" + v:new string(new[] { v[0], '-', v[1] });
+            }).ToLowerInvariant();
+            return result.StartsWith("-") ? result.Substring(1) : result;
         }
         public static string ToWordsCase(this string str)
         {
