@@ -58,9 +58,8 @@ namespace Net.Extensions
             if (items.IsEmpty()) return false;
             return items.Any(exp);
         }
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> items)
+        public static HashSet<T> ToSafeHashSet<T>(this IEnumerable<T> items)
             => items == null ? new HashSet<T>() : new HashSet<T>(items);
-
         public static Tree<T> ToTree<T>(this IEnumerable<T> items, Func<T, string> idFn, Func<T, string> parentFn)
         {
             return new Tree<T>(idFn, parentFn, items);
@@ -100,7 +99,7 @@ namespace Net.Extensions
         {
             return items.Aggregate((pre, next) => pre.Intersect(next));
         }
-        public static IEnumerable<T> AsSafeEnumerable<T>(this object enumerableItem)
+        public static IEnumerable<T> AsSafeOfType<T>(this object enumerableItem)
         {
             if (enumerableItem == null) yield break;
             if(enumerableItem is IEnumerable  list)
@@ -109,6 +108,12 @@ namespace Net.Extensions
                 foreach (T item in list.OfType<T>())
                     yield return item;
             }
+        }
+        public static IEnumerable<T> AsSafeEnumerable<T>(this IEnumerable<T> list)
+        {
+            if (list == null) yield break;
+            foreach (var i in list)
+                yield return i;
         }
     }
 }
