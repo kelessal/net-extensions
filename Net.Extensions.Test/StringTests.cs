@@ -21,5 +21,13 @@ namespace Net.Extensions.Test
             var result = x.ToDashCase();
             
         }
+
+        [Fact]
+        public void IsCaseInsensitiveEndsWithTest()
+        {
+            Assert.True("HelloWorld".IsCaseInsensitiveEndsWith("world"));
+            Assert.False("HelloWorld".IsCaseInsensitiveEndsWith("Hello"));
+            Assert.False("HelloWorld".IsCaseInsensitiveEndsWith("HelloWorld."));
+        }
     }
 }

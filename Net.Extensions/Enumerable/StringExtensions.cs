@@ -63,7 +63,17 @@ namespace Net.Extensions
                 .CompareInfo.IndexOf(a.ConvertTurkishChars(), b.ConvertTurkishChars(), CompareOptions.IgnoreCase) == 0;
 
         }
-       
+
+        public static bool IsCaseInsensitiveEndsWith(this string a, string b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+            if (b.Length > a.Length) return false;
+
+            return CultureInfo.CurrentCulture
+                .CompareInfo.IndexOf(a.ConvertTurkishChars(), b.ConvertTurkishChars(), CompareOptions.IgnoreCase) == a.Length - b.Length;
+        }
+
         public static string ToUpperFirstLetter(this string source,bool isInvariant=false)
         {
             if (string.IsNullOrEmpty(source))
