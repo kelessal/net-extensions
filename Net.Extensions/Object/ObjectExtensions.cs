@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
+
 namespace Net.Extensions
 {
     public static class ObjectExtensions
@@ -23,5 +25,13 @@ namespace Net.Extensions
         {
             yield return item;
         }
+
+        public static Array AsArray(this object item)
+        {
+            if (item == null) return Array.Empty<object>();
+            if (item is Array) return item as Array;
+            return new[] { item };
+        }
+        
     }
 }
