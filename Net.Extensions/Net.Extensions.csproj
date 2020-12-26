@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Company>Salih Keleş</Company>
     <Product>Salih Keleş</Product>
@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/kelessal/net-extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>net, extension, utility</PackageTags>
-    <Version>1.2.7</Version>
+    <Version>1.3.0</Version>
   </PropertyGroup>
 
 </Project>

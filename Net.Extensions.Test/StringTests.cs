@@ -29,5 +29,11 @@ namespace Net.Extensions.Test
             Assert.False("HelloWorld".IsCaseInsensitiveEndsWith("Hello"));
             Assert.False("HelloWorld".IsCaseInsensitiveEndsWith("HelloWorld."));
         }
+        [Fact]
+        public void ToShortIdTest()
+        {
+            var x = Guid.NewGuid();
+            var id=x.ToShortId();
+        }
     }
 }
