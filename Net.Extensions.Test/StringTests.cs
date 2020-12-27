@@ -35,5 +35,12 @@ namespace Net.Extensions.Test
             var x = Guid.NewGuid();
             var id=x.ToShortId();
         }
+        [Fact]
+        public void AsArrayTest()
+        {
+            var x =  "hello world";
+            var y = new[] { x };
+            var result=y.AsArray();
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 
 namespace Net.Extensions
 {
@@ -26,10 +28,12 @@ namespace Net.Extensions
             yield return item;
         }
 
-        public static Array AsArray(this object item)
+        public static object[] AsArray(this object item)
         {
             if (item == null) return Array.Empty<object>();
-            if (item is Array) return item as Array;
+            if (item is string strItem) return new[] { strItem };
+            if (item is Array) return item as object[];
+            if (item is IEnumerable<object> itemEnum) return itemEnum.ToArray();
             return new[] { item };
         }
         
