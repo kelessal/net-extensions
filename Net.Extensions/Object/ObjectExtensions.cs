@@ -32,7 +32,6 @@ namespace Net.Extensions
         {
             if (item == null) return Array.Empty<object>();
             if (item is string strItem) return new[] { strItem };
-            if (item is Array) return item as object[];
             if (item is IEnumerable<object> itemEnum) return itemEnum.ToArray();
             return new[] { item };
         }
