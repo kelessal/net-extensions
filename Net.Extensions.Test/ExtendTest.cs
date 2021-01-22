@@ -24,6 +24,17 @@ namespace Net.Extensions.Test
             y.Extend("a.b.d", "do");
             var result = x.MergeDictionary(y);
         }
+        enum MyEnum{
+            Me=0,
+            You=1
+        }
+
+        [Fact]
+        public void AsArrayTest()
+        {
+            var x = new[] { MyEnum.Me, MyEnum.You };
+            var result = x.AsArray();
+        }
 
     }
 }
