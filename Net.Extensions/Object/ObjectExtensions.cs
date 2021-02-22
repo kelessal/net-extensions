@@ -25,6 +25,7 @@ namespace Net.Extensions
         }
         public static IEnumerable<T> SingleToEnumerable<T>(this T item)
         {
+            if (item == null) yield break;
             yield return item;
         }
 
