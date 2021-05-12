@@ -9,6 +9,7 @@ namespace Net.Extensions
 {
     public static class StringExtensions
     {
+        static readonly Regex CamelCaseRegex = new Regex(@"[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+");
         static Regex DashCaseRegex = new Regex(@"([A-Z][a-z])|([a-z][A-Z])", RegexOptions.Compiled);
         static CultureInfo EnglishCulture = new CultureInfo("en-US");
         static Dictionary<char, char> turkishCharset = new Dictionary<char, char>()
@@ -134,6 +135,19 @@ namespace Net.Extensions
         public static string ToWordsCase(this string str)
         {
             return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x.ToString() : x.ToString()));
+        }
+        public static string ToCamelCase(this string str)
+        {
+            return new string(
+              new CultureInfo("en-US", false)
+                .TextInfo
+                .ToTitleCase(
+                  string.Join(" ", CamelCaseRegex.Matches(str)).ToLower()
+                )
+                .Replace(@" ", "")
+                .Select((x, i) => i == 0 ? char.ToLower(x) : x)
+                .ToArray()
+            );
         }
         public static string  DashToCamelCase(this string input)
         {

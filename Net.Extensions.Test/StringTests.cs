@@ -21,7 +21,13 @@ namespace Net.Extensions.Test
             var result = x.ToDashCase();
             
         }
+        [Fact]
+        public void CamelCaseTest()
+        {
+            var x = "ABDServiceSo";
+            var result = x.ToCamelCase();
 
+        }
         [Fact]
         public void IsCaseInsensitiveEndsWithTest()
         {
