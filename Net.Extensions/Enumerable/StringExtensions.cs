@@ -11,7 +11,7 @@ namespace Net.Extensions
     {
         static readonly Regex CamelCaseRegex = new Regex(@"[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+");
         static Regex DashCaseRegex = new Regex(@"([A-Z][a-z])|([a-z][A-Z])", RegexOptions.Compiled);
-        static CultureInfo EnglishCulture = new CultureInfo("en-US");
+        static CultureInfo EnglishCulture = new CultureInfo("en-US",false);
         static Dictionary<char, char> turkishCharset = new Dictionary<char, char>()
         {
             { 'ç','c' },
@@ -138,16 +138,19 @@ namespace Net.Extensions
         }
         public static string ToCamelCase(this string str)
         {
-            return new string(
-              new CultureInfo("en-US", false)
-                .TextInfo
-                .ToTitleCase(
-                  string.Join(" ", CamelCaseRegex.Matches(str)).ToLower()
-                )
-                .Replace(@" ", "")
-                .Select((x, i) => i == 0 ? char.ToLower(x) : x)
-                .ToArray()
-            );
+            if (str.IsEmpty()) return str;
+            string SimpleCamelCase(string txt) {
+                return new string(
+                EnglishCulture.TextInfo
+                    .ToTitleCase(
+                      string.Join(" ", CamelCaseRegex.Matches(txt)).ToLower()
+                    )
+                    .Replace(@" ", "")
+                    .Select((x, i) => i == 0 ? char.ToLower(x) : x)
+                    .ToArray());
+            }
+            return str.Split(".").Select(p => SimpleCamelCase(p)).ToJoinedString(".");
+           
         }
         public static string  DashToCamelCase(this string input)
         {

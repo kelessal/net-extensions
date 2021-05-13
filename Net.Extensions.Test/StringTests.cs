@@ -24,7 +24,7 @@ namespace Net.Extensions.Test
         [Fact]
         public void CamelCaseTest()
         {
-            var x = "ABDServiceSo";
+            var x = "ABDServiceSo.DEFS.GH";
             var result = x.ToCamelCase();
 
         }
