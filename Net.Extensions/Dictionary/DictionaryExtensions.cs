@@ -1,10 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Net.Extensions
 {
     public static class DictionaryExtensions
     {
+        public static ReadOnlyDictionary<TKey,T> ToReadOnlyDictionary<T,TKey>(this IEnumerable<T> items, Func<T,TKey> fnKey)
+        {
+            if (items.IsNull()) return new ReadOnlyDictionary<TKey, T>();
+            var pairs = items.AsSafeEnumerable()
+                .Select(p =>
+                {
+                    var key = fnKey(p);
+                    return new KeyValuePair<TKey, T>(key, p);
+                });
+            return new ReadOnlyDictionary<TKey, T>(pairs);
+        }
+        public static ReadOnlyDictionary<TKey, TValue> ToReadOnlyDictionary<T, TKey,TValue>(this IEnumerable<T> items, Func<T, TKey> fnKey,Func<T,TValue> fnValue)
+        {
+            if (items.IsNull()) return new ReadOnlyDictionary<TKey, TValue>();
+            var pairs = items.AsSafeEnumerable()
+                .Select(p =>
+                {
+                    var key = fnKey(p);
+                    var value = fnValue(p);
+                    return new KeyValuePair<TKey, TValue>(key, value);
+                });
+            return new ReadOnlyDictionary<TKey, TValue>(pairs);
+        }
         public static TValue GetSafeValue<TKey,TValue> (this IDictionary<TKey,TValue> dic, TKey key)
         {
             if (key == null || dic==null) return default(TValue);
