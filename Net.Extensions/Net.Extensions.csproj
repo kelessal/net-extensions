@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/kelessal/net-extensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>net, extension, utility</PackageTags>
-    <Version>2.0</Version>
+    <Version>5.0</Version>
   </PropertyGroup>
 
 </Project>

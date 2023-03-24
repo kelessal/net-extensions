@@ -43,9 +43,9 @@ namespace Net.Extensions
                 item.Sort(sortFn);
         }
       
-        public IEnumerable<TreeNode<T>> GetDescendings(Func<TreeNode<T>,bool> predicate=null)
+        public IEnumerable<TreeNode<T>> GetDescendings(Func<TreeNode<T>,bool> predicate=null,bool includeSelf=true)
         {
-            if (predicate == null || predicate(this)) yield return this;
+            if (includeSelf && (predicate == null || predicate(this))) yield return this;
             foreach (var item in this.Children)
                 foreach (var subitem in item.GetDescendings(predicate))
                     yield return subitem;
@@ -62,9 +62,9 @@ namespace Net.Extensions
                 return current;
             }
         }
-        public IEnumerable<TreeNode<T>> GetAscendings(Func<TreeNode<T>, bool> predicate=null)
+        public IEnumerable<TreeNode<T>> GetAscendings(Func<TreeNode<T>, bool> predicate=null,bool includeSelf=true)
         {
-            if (predicate==null ||  predicate(this)) yield return this;
+            if (includeSelf && (predicate==null ||  predicate(this))) yield return this;
             if (this.Parent != null)
                 foreach (var parent in this.Parent.GetAscendings(predicate))
                     yield return parent;

@@ -7,6 +7,8 @@ namespace Net.Extensions.Test
 {
     public class StringTests
     {
+        
+
         [Fact]
         public void ExtendPropertyTest()
         {

@@ -21,7 +21,6 @@ namespace Net.Extensions
             this._ParentIdFn = parentIdFn ?? throw new ArgumentNullException(nameof(parentIdFn));
             this._IdFn = idFn ?? throw new ArgumentNullException(nameof(idFn));
             this.Init(items);
-            this._children = this._itemsDic.Values.Where(p => p.Parent == null).ToList();
 
         }
         public IEnumerable<TMap> MapTo<TMap>(Func<T, TMap> mapFn)
@@ -39,6 +38,7 @@ namespace Net.Extensions
         }
         void Init(IEnumerable<T> items)
         {
+            this._itemsDic.Clear();
             items.Foreach(p =>
             {
                 var node = new TreeNode<T>(p);
@@ -52,6 +52,8 @@ namespace Net.Extensions
                 var parent = this._itemsDic[parentId];
                 parent.AddChild(item);
             }
+            this._children = this._itemsDic.Values.Where(p => p.Parent == null).ToList();
+
         }
         public bool HasLoop(T item)
         {
@@ -89,6 +91,10 @@ namespace Net.Extensions
             foreach (var item in this._children)
                 item.Sort(sortFn);
         }
-
+        public void Add(T item)
+        {
+            var newItems = this.GetItems().Append(item).Distinct().ToArray();
+            this.Init(newItems);
+        }
     }
 }
